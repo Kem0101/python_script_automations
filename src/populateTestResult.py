@@ -4,7 +4,6 @@ import random
 from testresult_data import results_data
 
 
-# Generate random data
 def generate_result_value(test_id, results_data):
     test_id = test_id[0]
     # Find into the dictionary that match with test_id
@@ -23,10 +22,8 @@ def generate_result_value(test_id, results_data):
     return result_value, unit_measure, observation
 
 
-# Populate TestResult
 def populate_test_result(cursor):
     try:
-        # Obtener todos los registros de TestOrder
         cursor.execute(
             "SELECT t.patient_id, t.medical_id, t.order_id FROM TestOrder t")
         test_orders = cursor.fetchall()
@@ -42,7 +39,7 @@ def populate_test_result(cursor):
             test_ids = cursor.fetchall()
 
             for test_id in test_ids:
-                # Generate data for TestResult
+                # asign data for TestResult
                 date_time = datetime.now()
                 result_value, unit_measure, observation = generate_result_value(
                     test_id, results_data)
@@ -70,7 +67,6 @@ def populate_test_result(cursor):
         print("Error during the insertion into TestResult:", ex)
 
 
-# DB configuration
 connection = mysql.connector.connect(
     host='localhost',
     port=3306,
@@ -82,10 +78,8 @@ connection = mysql.connector.connect(
 if connection.is_connected():
     cursor = connection.cursor()
 
-    # Call function to populate TestResult
     populate_test_result(cursor)
 
-    # commit change and close connection
     connection.commit()
     cursor.close()
     connection.close()
