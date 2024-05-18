@@ -45,23 +45,16 @@ def populate_test_result(cursor):
                     test_id, results_data)
                 state = "Normal"
 
-                print("Generated data:")
-                print("Patient ID:", patient_id)
-                print("Test ID:", test_id[0])
-                print("Medical ID:", medical_id)
-                print("Date Time:", date_time)
-                print("Result Value:", result_value)
-                print("Unit Measure:", unit_measure)
-                print("Observation:", observation)
-                print("State:", state)
+                result_value_str = ','.join(map(str, result_value))
+                unit_measure_str = ','.join(map(str, unit_measure))
+                observation_str = ','.join(map(str, observation))
 
-                # Insertar datos en TestResult
-                # cursor.execute("""INSERT INTO TestResult
-                #   (patient_id, test_id, medical_id, date_time, result_value, unit_measure, observation, state)
-                #       VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
-                #                (patient_id, test_id[0], medical_id, date_time, result_value, unit_measure, observation, state))
+                cursor.execute("""INSERT INTO TestResult
+                  (patient_id, test_id, medical_id, date_time, result_value, unit_measure, observation, state)
+                      VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
+                               (patient_id, test_id[0], medical_id, date_time, result_value_str, unit_measure_str, observation_str, state))
 
-                # print("TestResult se pobló correctamente.")
+                print("successfully populated test results!")
 
     except mysql.connector.Error as ex:
         print("Error during the insertion into TestResult:", ex)
